@@ -9,7 +9,7 @@ public class CustomChatPlugin : BasePlugin
 {
     public override string ModuleName => "Rainbow Chat Colors";
     public override string ModuleVersion => "1.0";
-    public override string ModuleAuthor => "Numele Tău";
+    public override string ModuleAuthor => "lionzew(CHATGPT)";
 
     public override void Load(bool hotReload)
     {
