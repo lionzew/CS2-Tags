@@ -9,31 +9,31 @@ public class CustomChatPlugin : BasePlugin
 {
     public override string ModuleName => "Rainbow Chat Colors";
     public override string ModuleVersion => "1.0";
-    public override string ModuleAuthor => "lionzew(CHATGPT)";
+    public override string ModuleAuthor => "Numele Tău";
 
     public override void Load(bool hotReload)
+{
+    RegisterEventHandler<EventPlayerChat>((@event, info) =>
     {
-        RegisterEventHandler<EventPlayerChat>((@event, info) =>
+        var player = @event.Player;  // Înlocuim `Sender` cu `Player` sau un alt câmp adecvat
+        if (player == null || !player.IsValid)
+            return HookResult.Continue;
+
+        string message = @event.Text;
+        string playerName = player.PlayerName;
+
+        // Aplicăm efectul Rainbow dacă mesajul conține {RAINBOW}
+        if (message.Contains("{RAINBOW}"))
         {
-            var player = @event.Sender;
-            if (player == null || !player.IsValid)
-                return HookResult.Continue;
+            playerName = Rainbow(playerName);
+            message = message.Replace("{RAINBOW}", ""); // Eliminăm tag-ul
+        }
 
-            string message = @event.Text;
-            string playerName = player.PlayerName;
+        Server.PrintToChatAll($" {playerName}: {message}");
 
-            // Aplicăm efectul Rainbow dacă mesajul conține {RAINBOW}
-            if (message.Contains("{RAINBOW}"))
-            {
-                playerName = Rainbow(playerName);
-                message = message.Replace("{RAINBOW}", ""); // Eliminăm tag-ul
-            }
-
-            Server.PrintToChatAll($" {playerName}: {message}");
-
-            return HookResult.Handled; // Prevenim dublarea mesajului default
-        });
-    }
+        return HookResult.Handled; // Prevenim dublarea mesajului default
+    });
+}
 
     // Funcție pentru efect Rainbow
     private string Rainbow(string text)
